@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Gráfico de Barras</title>
+  <!-- Inclua a biblioteca Plotly -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div id="grafico"></div>
+
+  <script>
+    function lerArquivo(arquivo) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        var conteudo = event.target.result;
+        var linhas = conteudo.split('\n');
+
+        var data = [];
+        for (var i = 0; i < linhas.length; i++) {
+          var linha = linhas[i];
+          var celulas = linha.split(',');
+
+          data.push(celulas);
+        }
+
+        aplicarSubstituicoes(data);
+        criarGrafico(data);
+      };
+
+      reader.readAsText(arquivo);
+    }
+
+    function aplicarSubstituicoes(data) {
+      var substitutions = {
+        'S.I.': 'S.D.',
+        'S.D.': 'S.D.',
+        's.i.': 'S.D.',
+        's.d.': 'S.D.',
+        'S.I': 'S.D.',
+        's.i': 'S.D.',
+        'S.i': 'S.D.',
+        'S.i.': 'S.D.',
+        'S.d.': 'S.D.',
+        'S.D': 'S.D.',
+        'S.d': 'S.D.',
+        's.d': 'S.D.',
+        'S. I': 'S.D.',
+        'Sem data': 'S.D.',
+        'S. I': 'S.D.',
+        'S. I.': 'S.D.',
+        'S.|': 'S.D.',
+        'S. d': 'S.D.',
+        'Não Identificado': 'S.D.',
+        '-': 'S.D.',
+        'sem data': 'S.D.',
+        '': '1010'
+      };
+
+      for (var i = 1; i < data.length; i++) { // Ignorar o cabeçalho
+        var ano = data[i][4]; // Coluna "Data" (quarta coluna)
+        if (ano in substitutions) {
+          data[i][4] = substitutions[ano];
+        }
+      }
+    }
+
+    function criarGrafico(data) {
+      var obrasPorAno = {};
+
+      // Contar a quantidade de obras por ano
+      for (var i = 1; i < data.length; i++) { // Ignorar o cabeçalho
+        var ano = data[i][4]; // Coluna "Data" (quarta coluna)
+        if (ano in obrasPorAno) {
+          obrasPorAno[ano]++;
+        } else {
+          obrasPorAno[ano] = 1;
+        }
+      }
+
+      var anos = Object.keys(obrasPorAno);
+      var quantidades = Object.values(obrasPorAno);
+
+      // Configurar os dados do gráfico de barras
+      var data = [{
+        x: anos,
+        y: quantidades,
+        type: 'bar'
+      }];
+
+      // Configurar o layout do gráfico
+      var layout = {
+        title: 'Quantidade de Obras por Ano',
+        xaxis: { title: 'Ano' },
+        yaxis: { title: 'Quantidade de Obras' }
+      };
+
+      // Renderizar o gráfico
+      Plotly.newPlot('grafico', data, layout);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var arquivo = 'data.csv'; // Nome do arquivo CSV
+
+      fetch(arquivo)
+        .then(response => response.blob())
+        .then(blob => {
+          var file = new File([blob], arquivo, { type: 'text/csv' });
+          lerArquivo(file);
+        })
+        .catch(error => console.error(error));
+    });
+  </script>
+</body>
+</html>
