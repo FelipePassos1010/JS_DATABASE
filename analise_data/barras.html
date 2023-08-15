@@ -5,6 +5,44 @@
   <title>Gráfico de Barras</title>
   <!-- Inclua a biblioteca Plotly -->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    label {
+      display: inline-block;
+      width: 80px;
+      margin-right: 10px;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 80px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #a04545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #a04545;
+    }
+
+    #grafico {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <div>
@@ -15,6 +53,11 @@
     <button onclick="construirGrafico()">Construir Gráfico</button>
   </div>
   <div id="grafico"></div>
+
+  <!-- O restante do seu código JavaScript permanece o mesmo -->
+</body>
+</html>
+
 
   <script>
     var data;
@@ -41,27 +84,27 @@
 
     function aplicarSubstituicoes(data) {
       var substitutions = {
-        'S.I.': 'S.D.',
-        'S.D.': 'S.D.',
-        's.i.': 'S.D.',
-        's.d.': 'S.D.',
-        'S.I': 'S.D.',
-        's.i': 'S.D.',
-        'S.i': 'S.D.',
-        'S.i.': 'S.D.',
-        'S.d.': 'S.D.',
-        'S.D': 'S.D.',
-        'S.d': 'S.D.',
-        's.d': 'S.D.',
-        'S. I': 'S.D.',
-        'Sem data': 'S.D.',
-        'S. I': 'S.D.',
-        'S. I.': 'S.D.',
-        'S.|': 'S.D.',
-        'S. d': 'S.D.',
-        'Não Identificado': 'S.D.',
-        '-': 'S.D.',
-        'sem data': 'S.D.',
+        'S.I.': '1010',
+        '1010': '1010',
+        's.i.': '1010',
+        '1010': '1010',
+        'S.I': '1010',
+        's.i': '1010',
+        'S.i': '1010',
+        'S.i.': '1010',
+        '1010': '1010',
+        'S.D': '1010',
+        'S.d': '1010',
+        's.d': '1010',
+        'S. I': '1010',
+        'Sem data': '1010',
+        'S. I': '1010',
+        'S. I.': '1010',
+        'S.|': '1010',
+        'S. d': '1010',
+        'Não Identificado': '1010',
+        '-': '1010',
+        'sem data': '1010',
         '': '1010'
       };
 
